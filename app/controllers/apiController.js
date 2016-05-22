@@ -1,39 +1,27 @@
 'use strict';
 
-exports.getTimeStamp = function(req, res) {
-    // Create a new instance of the Beer model
-    var timestamp = decodeURI(req.params.timestamp);
-        
-    var natural = null;
-    var unix = null;
-    var isTimeStamp = false;
-	
-	var date;
-    if(isNaN(timestamp)){
-        date = new Date(Date.parse(timestamp));
-    }else{
-        isTimeStamp = true;
-        date = new Date(parseInt(timestamp)*1000);
-    }
-	
-    if(date != "Invalid Date" && date instanceof Date)
-    {
-        var month = date.getMonth();
-        var day = date.getDay();
-        var year = date.getFullYear();
-        
-        var monthNames = ["January", "February", "March", "April", "May", "June",
-          "July", "August", "September", "October", "November", "December"
-        ];
-        month = monthNames[month];
-        
-        natural = month + ' ' + day + ', ' + year;
-        if(isTimeStamp){
-            unix = timestamp;
-        }else{
-            unix = date.getTime() / 1000;
-        }
-    }
-		
-	res.json({ 'unix': unix, 'natural': natural });
+var Url = require('../models/urls');
+
+exports.redirectUrl = function(req, res) {
+    var key = req.params.id;
+    console.log('trying to find:' + key);
+    var result = Url.findById(key);
+    console.log(result);
+    res.json(result);
 };
+
+exports.shortenUrl = function(req, res) {
+    var url = req.params[0];
+    var validUrl = require('valid-url');
+  
+    var baseUrl = process.env.APP_URL;
+    if (validUrl.isUri(url)){
+        var newUrl = new Url();
+        newUrl.url = url;
+        newUrl.save();
+        res.json({ 'shortUrl': baseUrl + 'r/' + newUrl._id});
+    }else{
+        res.json({ 'error': 'Invalid Url'});
+    }
+};
+
