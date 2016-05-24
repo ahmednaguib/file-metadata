@@ -2,30 +2,36 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>Timestamp microservice</title>
+        <title>url shortener microservice</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     </head>
     <body>
         <div class="container">
             <h1 class="header">
-                API Basejump: Timestamp microservice
+                API Basejump: url shortener microservice
             </h1>
             <blockquote>
                 User stories:
-                <ul>1) I can pass a string as a parameter, and it will check to see whether that string 
-                contains either a unix timestamp or a natural language date (example: January 1, 2016)</ul>
-                <ul>2) If it does, it returns both the Unix timestamp and the natural language form of that date.</ul>
-                <ul>3) If it does not contain a date or Unix timestamp, it returns null for those properties.</ul>
+                <ul>
+                    <li>User Story: I can pass a URL as a parameter and I will receive a shortened URL in the JSON response.</li>
+                    <li>User Story: If I pass an invalid URL that doesn't follow the valid http://www.example.com format, the JSON response will contain an error instead.</li>
+                    <li>User Story: When I visit that shortened URL, it will redirect me to my original link.</li>
             </blockquote>
             <h3>Example usage:</h3>
-            <code>https://bateekha-anaguib-1.c9users.io/December%2015,%202015</code><br>
-            <code>https://bateekha-anaguib-1.c9users.io/1450137600</code>
-            <h3>Example output:</h3>
+            <code>https://url-shortener-anaguib.c9users.io/http://www.google.com</code><br>
+            <h4>will return</h4>
             <code>
                 {
-                  "unix": 1450137600,
-                  "natural": "December 15, 2015"
-                }
+                    "shortUrl" : "https://url-shortener-anaguib.c9users.io/r/ry6UPSzX"
+                }</code>
+            
+            <h3>And when you go to:</h3>
+            <code>
+                https://url-shortener-anaguib.c9users.io/r/ry6UPSzX
+            </code>
+            <h4>It will redirect to</h4>
+            <code>
+                http://www.google.com
             </code>
         </div>
     </body>
