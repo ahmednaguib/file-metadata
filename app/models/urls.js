@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+
 var shortid = require('shortid');
 
 var Url = new Schema({
