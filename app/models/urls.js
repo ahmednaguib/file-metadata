@@ -13,4 +13,4 @@ var Url = new Schema({
 		url: String
 });
 
-module.exports = mongoose.model('Url', Url);
+module.exports = mongoose.model('', Url);
