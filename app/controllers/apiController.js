@@ -1,6 +1,6 @@
 'use strict';
 
-var searchItem = require('../models/searchItem');
+var SearchItem = require('../models/searchItem');
 var googleSearch = require('../services/googleSearchApi');
 
 exports.imagesearch = function(req, res, next) {
@@ -19,10 +19,36 @@ exports.imagesearch = function(req, res, next) {
             'context': item.image.contextLink
             });
         });
+        
         res.json(responseArray);
       }
     };
     
     var keyword = req.params.keyword;
+    
+    if(!keyword){
+        return res.json({'error':'Invalid search keyword'});
+    }
+    
+    // store search in database
+    var searchItemObj = new SearchItem();
+    searchItemObj.keyword = keyword;
+    searchItemObj.save();
+    
+    // make the call
     googleSearch.searchWithKeyWord(keyword, printResponse);
 };
+
+exports.latestSearches = function(req, res) {
+    var q = SearchItem.find().sort({'createdAt': -1}).limit(10);
+    q.exec(function(err, latest) {
+        var responseArray = [];
+        latest.forEach(function(item) {
+            responseArray.push({
+            'keyword': item.keyword,
+            'createdAt': item.createdAt
+            });
+        });
+        res.json(responseArray);
+    });
+}

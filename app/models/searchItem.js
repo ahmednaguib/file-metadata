@@ -10,8 +10,10 @@ var SearchItem = new Schema({
 		    type: String,
 		    'default': shortid.generate
 		},
-		keyword: String,
-		createdAt: Date
-});
+		keyword: String
+		},
+		{
+		    timestamps: true
+		});
 
 module.exports = mongoose.model('', SearchItem);
