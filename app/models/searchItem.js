@@ -5,12 +5,13 @@ var Schema = mongoose.Schema;
 
 var shortid = require('shortid');
 
-var Url = new Schema({
+var SearchItem = new Schema({
 		_id: {
 		    type: String,
 		    'default': shortid.generate
 		},
-		url: String
+		keyword: String,
+		createdAt: Date
 });
 
-module.exports = mongoose.model('', Url);
+module.exports = mongoose.model('', SearchItem);
