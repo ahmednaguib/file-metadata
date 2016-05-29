@@ -9,5 +9,9 @@ module.exports = function (app, db) {
 	
 	app.route('/latest')
 	.get(apiController.latestSearches);
-
+	
+	app.route('/')
+	.get(function(req,res) {
+		res.sendFile(path + '/public/index.html');
+	});
 };
