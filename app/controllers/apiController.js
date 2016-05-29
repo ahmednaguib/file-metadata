@@ -25,6 +25,13 @@ exports.imagesearch = function(req, res, next) {
     };
     
     var keyword = req.params.keyword;
+    var offset = req.query.offset;
+    
+    if(!isNaN(offset) && offset > 0){
+        offset--;
+    }else{
+        offset = 0;
+    }
     
     if(!keyword){
         return res.json({'error':'Invalid search keyword'});
@@ -36,7 +43,7 @@ exports.imagesearch = function(req, res, next) {
     searchItemObj.save();
     
     // make the call
-    googleSearch.searchWithKeyWord(keyword, printResponse);
+    googleSearch.searchWithKeyWord(keyword, offset, printResponse);
 };
 
 exports.latestSearches = function(req, res) {
