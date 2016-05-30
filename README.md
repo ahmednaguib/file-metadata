@@ -1,1 +1,1 @@
-returns image search results
+returns a shortened url from a given url

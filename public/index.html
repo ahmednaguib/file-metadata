@@ -2,31 +2,37 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>Image Search</title>
+        <title>url shortener microservice</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     </head>
     <body>
         <div class="container">
             <h1 class="header">
-                API Basejump: Image Search
+                API Basejump: url shortener microservice
             </h1>
             <blockquote>
                 User stories:
                 <ul>
-                    <li>I can get the image URLs, alt text and page urls for a set of images relating to a given search</li> string.
-                    <li>I can paginate through the responses by adding a ?offset=2 parameter to the URL.</li>
-                    <li>I can get a list of the most recently submitted search strings.</li>
-                </ul>
+                    <li>User Story: I can pass a URL as a parameter and I will receive a shortened URL in the JSON response.</li>
+                    <li>User Story: If I pass an invalid URL that doesn't follow the valid http://www.example.com format, the JSON response will contain an error instead.</li>
+                    <li>User Story: When I visit that shortened URL, it will redirect me to my original link.</li>
             </blockquote>
             <h3>Example usage:</h3>
-            <code>https://image-search-anaguib.c9users.io/imagesearch/barcelona?offset=1</code><br>
-            <h4>will return 10 image search results</h4>
-            <h4>By default offset=1, you can remove it. And if you want the next set of results send offset=2 and so on</h4>
-            
+            <code>https://url-shortener-anaguib.c9users.io/http://www.google.com</code><br>
+            <h4>will return</h4>
             <code>
-                https://image-search-anaguib.c9users.io/latest
+                {
+                    "shortUrl" : "https://url-shortener-anaguib.c9users.io/r/ry6UPSzX"
+                }</code>
+            
+            <h3>And when you go to:</h3>
+            <code>
+                https://url-shortener-anaguib.c9users.io/r/ry6UPSzX
             </code>
-            <h4>Will return the last 10 searched for keywords</h4>
+            <h4>It will redirect to</h4>
+            <code>
+                http://www.google.com
+            </code>
         </div>
     </body>
 </html>
