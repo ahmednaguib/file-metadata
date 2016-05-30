@@ -2,37 +2,59 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>url shortener microservice</title>
+        <title>file metadata microservice</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     </head>
     <body>
         <div class="container">
             <h1 class="header">
-                API Basejump: url shortener microservice
+                API Basejump: file metadata microservice
             </h1>
             <blockquote>
                 User stories:
                 <ul>
-                    <li>User Story: I can pass a URL as a parameter and I will receive a shortened URL in the JSON response.</li>
-                    <li>User Story: If I pass an invalid URL that doesn't follow the valid http://www.example.com format, the JSON response will contain an error instead.</li>
-                    <li>User Story: When I visit that shortened URL, it will redirect me to my original link.</li>
+                    <li>I can submit a FormData object that includes a file upload.</li>
+                    <li>When I submit something, I will receive the file size in bytes within the JSON response</li>
             </blockquote>
-            <h3>Example usage:</h3>
-            <code>https://url-shortener-anaguib.c9users.io/http://www.google.com</code><br>
-            <h4>will return</h4>
-            <code>
-                {
-                    "shortUrl" : "https://url-shortener-anaguib.c9users.io/r/ry6UPSzX"
-                }</code>
+            <form method="POST" action="/fileanalyze" enctype="multipart/form-data">
+                <input type="file" id="myFile" name="myFile" />
+                <button id="btn-upload" type="submit">upload</button>
+            </form>
+            <br>
+            <pre id="result">
+                
+            </pre>
             
-            <h3>And when you go to:</h3>
-            <code>
-                https://url-shortener-anaguib.c9users.io/r/ry6UPSzX
-            </code>
-            <h4>It will redirect to</h4>
-            <code>
-                http://www.google.com
-            </code>
+            <script type="text/javascript">
+            $(function(){
+                $('form').on('submit', function(e)
+                {
+                    e.preventDefault();
+                    var files = $('input[type=file]')[0].files[0];
+                    if(!files){
+                        alert('please select a file to upload');
+                        return;
+                    }
+                    var data = new FormData();
+                    data.append('files',files);
+                    
+                    $.ajax({
+                        url: '/fileanalyze',
+                        type: 'POST',
+                        data: data,
+                        cache: false,
+                        dataType: 'json',
+                        contentType: false,
+                        processData: false,
+                        success: function(data, textStatus)
+                        {
+                            $('#result').html(JSON.stringify(data));
+                        }
+                    });   
+                });
+            });
+            </script>
         </div>
     </body>
 </html>
